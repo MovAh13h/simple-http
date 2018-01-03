@@ -11,21 +11,15 @@ With options
 
 // GET
 http('/url', {
-		method: 'GET',
-		headers: {
-			// Headers
-		}
-	})
+	method: 'GET',
+	headers: {// Headers}
+})
 
 // POST
 http('/url', {
-		method: 'POST',
-		data: {
-			// Data
-		},
-		headers: {
-			// Headers
-		}
-	})
+	method: 'POST',
+	data: { // Data },
+	headers: { // Headers}
+})
 ```
 
