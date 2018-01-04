@@ -23,3 +23,4 @@ http('/url', {
 })
 ```
 
+**NOTE:** Error Handling isn't supported yet. Chain the 'catch' method after the request to handle errors

@@ -1,44 +1,52 @@
 function http(url, options) {
 	if(options) {
-		if((options.method == ('POST' || 'post')) && (!options.data)) {
-			console.error('Method not defined')
-			return;
-		} 
-		else if(!options.method) {
-			console.error('Data is required for POST request');
-			return;
-		}
-		else if (options.method != ('GET' || 'get' || 'POST' || 'post')) {
-			console.error('Allowed request types are GET and POST only')
-			return;
-		}
-		else {
-			return new Promise(function(resolve, reject) {
-				var request = new XMLHttpRequest();
-				if(options.headers) {
-					for(var i in options.headers) {
-						request.setRequestHeader(i, options.headers[i]);
-					}
+		return new Promise(function(resolve, reject) {
+			var request = new XMLHttpRequest();
+			request.open(options.method, url, true);
+			if(options.headers) {
+				for(var i in options.headers) {
+					request.setRequestHeader(i, options.headers[i]);
 				}
-				request.open(options.method, url, true);
-				request.onreadystatechange = function() {
-					if(request.readyState == 4) {
-						resolve(request.responseText)
-					}
-				};
-				request.send();
-			});
-		}
+			}
+			if(options.method == ('POST'||'post')) {
+				request.setRequestHeader('Content-Type', 'application/json');
+				request.send(JSON.stringify(options.data));
+			} else if (options.method == ('GET'||'get')) {
+				request.send()
+			}
+			request.onload = function() {
+				if(this.responseText) {
+					console.log(request.status);
+					resolve({
+						status: request.status,
+						data: JSON.parse(this.responseText)
+					})
+				} else {
+					resolve('')
+				}
+			};
+		});
 	} else if(!options) {
 		return new Promise(function(resolve, reject) {
 			var request = new XMLHttpRequest();
 			request.open('GET', url, true);
-			request.onreadystatechange = function() {
-				if(request.readyState == 4) {
-					resolve(request.responseText)
+			if(options && options.headers) {
+				for(var i in options.headers) {
+					request.setRequestHeader(i, options.headers[i]);
 				}
-			};
+			}
 			request.send();
+			request.onload = function() {
+				if(this.responseText) {
+					console.log(request.status);
+					resolve({
+						status: request.status,
+						data: JSON.parse(this.responseText)
+					})
+				} else {
+					resolve('')
+				}
+			};;
 		});
 	}
 }
