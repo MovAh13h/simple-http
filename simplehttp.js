@@ -16,7 +16,6 @@ function http(url, options) {
 			}
 			request.onload = function() {
 				if(this.responseText) {
-					console.log(request.status);
 					resolve({
 						status: request.status,
 						data: JSON.parse(this.responseText)
@@ -38,7 +37,6 @@ function http(url, options) {
 			request.send();
 			request.onload = function() {
 				if(this.responseText) {
-					console.log(request.status);
 					resolve({
 						status: request.status,
 						data: JSON.parse(this.responseText)
